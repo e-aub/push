@@ -466,8 +466,6 @@ We'd love to have you contribute! The codebase is well-structured, and we're hap
 
 **Tech Stack:** Rust, Unix bindings, termion (terminal I/O), various standard library crates
 
-**Codebase:** ~10,000+ lines of Rust code across 50+ modules
-
 **Status:** Production-ready core functionality with extensive testing - 75% of features fully working, open for contributions
 
 **Test Coverage:** 40+ comprehensive test scenarios covering all implemented features
