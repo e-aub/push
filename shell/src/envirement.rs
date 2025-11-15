@@ -139,4 +139,44 @@ impl ShellEnv {
     pub fn get_func(&mut self, name: &str) -> Option<&AstNode> {
         self.functions.get(name)
     }
+
+    /// Save current positional parameters and set new ones for function call
+    pub fn set_positional_params(&mut self, args: Vec<String>) -> HashMap<String, (String, bool)> {
+        // Save current positional parameters (1, 2, ...) - don't save $0
+        let mut saved = HashMap::new();
+        for i in 1..=9 {
+            let key = i.to_string();
+            if let Some(value) = self.variables.get(&key) {
+                saved.insert(key, value.clone());
+            }
+        }
+        
+        // Set $1, $2, etc. from function arguments (don't touch $0)
+        for (i, arg) in args.iter().enumerate() {
+            let key = (i + 1).to_string(); // $1, $2, etc.
+            self.variables.insert(key, (arg.clone(), false));
+        }
+        
+        // Clear any remaining positional parameters beyond the number of args
+        for i in (args.len() + 1)..=9 {
+            let key = i.to_string();
+            self.variables.remove(&key);
+        }
+        
+        saved
+    }
+
+    /// Restore saved positional parameters
+    pub fn restore_positional_params(&mut self, saved: HashMap<String, (String, bool)>) {
+        // Remove current positional parameters (1-9, don't touch $0)
+        for i in 1..=9 {
+            let key = i.to_string();
+            self.variables.remove(&key);
+        }
+        
+        // Restore saved ones
+        for (key, value) in saved {
+            self.variables.insert(key, value);
+        }
+    }
 }

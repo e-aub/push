@@ -2,7 +2,7 @@ use crate::{
     error::ShellError,
     exec::{CommandResult, wait_for_single_process},
     executor::Executor,
-    executorr::spawn_commande::spawn_command,
+    executor::spawn_commande::spawn_command,
     features::jobs::{Job, JobStatus},
     lexer::types::{QuoteType, Word},
     types::AstNode,

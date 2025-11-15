@@ -11,7 +11,7 @@ use crate::commands::exit::Exit;
 use crate::commands::fg::Fg;
 use crate::commands::jobs::Jobs;
 use crate::commands::kill::Kill;
-use crate::executorr::spawn_commande::spawn_command;
+use crate::executor::spawn_commande::spawn_command;
 use nix::sys::signal::{Signal, signal};
 use nix::sys::wait::{WaitPidFlag, WaitStatus, waitpid};
 use nix::unistd::Pid;
@@ -457,6 +457,12 @@ pub fn execute_with_background(
             let n = parse_level(level_word, env, "continue")?;
             let n = n.min(loop_depth);
             Err(ShellError::Continue(n))
+        }
+
+        AstNode::FunctionDef { name, body } => {
+            let func_name = name.expand(env);
+            env.set_func(func_name, *body.clone());
+            Ok(0)
         }
 
         _ => Ok(0),

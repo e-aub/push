@@ -15,23 +15,6 @@ use unicode_width::UnicodeWidthStr;
 use std::env;
 use std::path::PathBuf;
 
-#[derive(Debug, Clone, Copy)]
-pub struct CursorPosition {
-    pub x: u16,
-    pub y: u16,
-}
-
-impl CursorPosition {
-    pub fn new(x: u16, y: u16) -> Self {
-        Self { x, y }
-    }
-
-    pub fn reset(&mut self) {
-        self.x = 0;
-        self.y = 0;
-    }
-}
-
 pub fn calc_termlines_in_buffer(buffer_size: usize) -> u16 {
     let (width, _) = termion::terminal_size().unwrap_or((80, 24));
     let prompt_length = prompt_len() as u16;

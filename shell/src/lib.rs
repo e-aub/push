@@ -1,4 +1,5 @@
 pub mod events_handler;
+pub mod shell;
 pub mod parser;
 pub use parser::*;
 pub mod envirement;
@@ -23,7 +24,7 @@ pub mod commands {
     pub mod tru;
     pub mod typ;
 }
-use crate::{error::ShellError, events_handler::OutputTarget};
+use crate::{error::ShellError, shell::OutputTarget};
 use envirement as v;
 use std::path::PathBuf;
 
@@ -40,7 +41,6 @@ pub mod features {
 
 pub mod error;
 pub mod eval;
-pub mod executorr;
 pub mod executor;
 pub mod expansion;
 pub mod lexer;

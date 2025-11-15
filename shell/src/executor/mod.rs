@@ -11,6 +11,8 @@ mod exec_while;
 mod exec_for;
 mod exec_until;
 mod parse_level;
+mod run_commande;
+pub mod spawn_commande;
 
 
 use parse_level::parse_level;
@@ -66,7 +68,9 @@ impl<'a> Executor<'a> {
                 Err(ShellError::Continue(n))
             },
 
-            AstNode::FunctionDef { ..} =>{
+            AstNode::FunctionDef { name, body } => {
+                let func_name = name.expand(self.env);
+                self.env.set_func(func_name, *body.clone());
                 return Ok(0);
             },
         }
