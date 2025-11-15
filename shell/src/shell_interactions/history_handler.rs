@@ -1,5 +1,5 @@
 use crate::OutputTarget;
-use crate::events_handler::{Shell};
+use crate::shell::Shell;
 use crate::shell_interactions::utils::clear_buff_ter;
 use termion::raw::RawTerminal;
 

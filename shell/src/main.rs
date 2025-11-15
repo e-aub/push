@@ -1,6 +1,6 @@
 use nix::sys::signal::{signal, SigHandler, Signal};
 pub use shell::parser;
-use shell::events_handler::{self, ShellMode};
+use shell::shell::{Shell, ShellMode};
 
 fn main() {
     unsafe {
@@ -20,5 +20,5 @@ fn main() {
         ShellMode::NonInteractive
     };
 
-    events_handler::Shell::new(mode).run();
+    Shell::new(mode).run();
 }

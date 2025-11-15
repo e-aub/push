@@ -173,34 +173,63 @@ Each command implements the `ShellCommand` trait:
 
 ## Supported Shell Features
 
-### Basic Commands
+### Basic Commands ✅
 - File operations: ls, cat, cp, rm, mv, mkdir
 - Navigation: cd, pwd
 - Output: echo
 - Environment: export
+- Utilities: type, test, true, false
+- Job control: jobs, fg, bg, kill
+- Control: exit
 
-### Shell Constructs
-- Command sequences (`;`)
-- Pipelines (`|`)
-- Logical operators (`&&`, `||`)
-- Background execution (`&`)
-- Variable assignments
-- I/O redirection (`>`, `<`, `>>`)
+### Shell Constructs ✅
+- Command sequences (`;`) - Fully working
+- Pipelines (`|`) - Multi-stage pipelines supported
+- Logical operators (`&&`, `||`, `!`) - All working
+- Background execution (`&`) - Supported
+- Variable assignments - Working
+- I/O redirection (`>`, `>>`, `<`) - Working when directories exist
+- Command grouping (`{ }`) - Fully functional
 
-### Interactive Features
-- Command history
-- Line editing
-- Cursor movement
-- Terminal control
-- Signal handling
+### Control Flow ✅
+- Conditionals: `if-then-elif-else-fi` - All branches working
+- Loops: `for-in-do-done` - Fully working
+- Loops: `while-do-done` - Working (arithmetic in conditions has limitations)
+- Loops: `until-do-done` - Working (arithmetic in conditions has limitations)
+- Loop control: `break`, `continue` - With optional levels, fully working
+- Functions: `name() { body; }` - Fully implemented with argument support
+
+### Functions ✅ (Fully Implemented)
+- Function definitions and calls
+- Function arguments (`$1`, `$2`, etc.)
+- Nested function calls
+- Function redefinition
+- Positional parameter scoping
+- Functions with control structures
+- Functions with pipelines and redirections
+
+### Interactive Features ✅
+- Command history with persistent storage
+- Line editing (insert, delete, cursor movement)
+- History navigation (Up/Down arrows)
+- Terminal control (Ctrl+C, Ctrl+D, Ctrl+Z, Ctrl+L)
+- Dynamic prompt
+
+### Known Limitations ⚠️
+- Subshells: `(cmd1; cmd2)` - Parse error, not yet implemented
+- Arithmetic in test conditions: `$((i+1))` in while/until loops has issues
+- File operation flags: `mkdir -p` and `rm -rf` don't support flags
+- Pipelines with control structures: Pipelines can only contain commands
+- Redirection to non-existent directories: Requires parent directory to exist first
 
 ### Planned Features (TODO)
-- Control structures (if, while, for, case)
-- Function definitions
-- Subshells
-- Job control
-- Arithmetic expressions
-- Advanced expansion
+- **Subshells**: `(cmd1; cmd2)` - Parse error needs fixing
+- **Arithmetic expressions**: Full support for `$((expr))` in all contexts
+- **Command substitution**: `$(command)` - Not yet implemented
+- **Advanced expansion**: `${VAR:-default}`, `${VAR:+value}`, etc.
+- **Case statements**: `case-esac` construct
+- **Here documents**: `<<` heredoc support
+- **File operation flags**: Proper support for `-p`, `-rf`, etc.
 
 ## Development Setup
 

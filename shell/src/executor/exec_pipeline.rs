@@ -12,7 +12,7 @@ use crate::{
     error::ShellError,
     exec::CommandResult,
     executor::Executor,
-    executorr::spawn_commande::spawn_command,
+    executor::spawn_commande::spawn_command,
     features::jobs::{Job, JobStatus},
     types::AstNode,
 };

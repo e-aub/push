@@ -4,7 +4,7 @@ use crate::exec::CommandResult;
 use crate::exec::CommandType;
 use crate::exec::execute;
 use crate::exec::get_command_type;
-use crate::executorr::run_commande::run_commande;
+use crate::executor::run_commande::run_commande;
 use crate::expansion::expand_and_split;
 use crate::features::jobs;
 use crate::features::jobs::JobStatus;
@@ -178,7 +178,15 @@ pub fn spawn_command(
     if !cmd_str.is_empty() {
         match get_command_type(cmd.expand(env).as_str(), env) {
             CommandType::Function(func) => {
+                // Save current positional parameters and set function arguments
+                let saved_params = env.set_positional_params(all_args.clone());
+                
+                // Execute the function
                 let status = execute(&func, env)?;
+                
+                // Restore positional parameters
+                env.restore_positional_params(saved_params);
+                
                 env.set_last_status(status);
                 return Ok(CommandResult::Builtin(status));
             }
@@ -225,3 +233,4 @@ pub fn spawn_command(
         return Ok(CommandResult::Builtin(0));
     }
 }
+
